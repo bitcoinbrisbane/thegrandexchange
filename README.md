@@ -1,13 +1,6 @@
-# Sample Hardhat Project
+# The Grand Exchange
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.ts
+Owner
+```text
+0x7988123D1F90ccF9675f9D154870Af0f9274DF91
 ```
