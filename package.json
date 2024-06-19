@@ -11,6 +11,7 @@
     "hh:test": "hardhat test",
     "hh:node": "npx hardhat node",
     "hh:deploy:usdt:sepolia": "npx hardhat ignition deploy ./ignition/modules/MockUSDT.ts --network sepolia --verify",
+    "hh:deploy:woof:sepolia": "npx hardhat ignition deploy ./ignition/modules/JavaScriptToken.ts --network sepolia --verify",
     "hh:verify": "npx hardhat verify --network localhost",
     "hh:deploy:sepolia": "npx hardhat ignition deploy ./ignition/modules/MockUSDT.ts --network localhost"
   },
