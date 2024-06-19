@@ -1,6 +1,8 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 
+//import { vars } from "hardhat/config";
+
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
 
@@ -41,6 +43,9 @@ const config: HardhatUserConfig = {
   },
   mocha: {
     timeout: 40000,
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
 };
 

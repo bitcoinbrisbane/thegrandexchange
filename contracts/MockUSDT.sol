@@ -64,7 +64,7 @@ contract MockUSDT {
      * no way affects any of the arithmetic of the contract, including
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
-    function decimals() public view returns (uint8) {
+    function decimals() public pure returns (uint8) {
         return 6;
     }
 
@@ -80,6 +80,10 @@ contract MockUSDT {
      */
     function balanceOf(address account) public view returns (uint256) {
         return _balances[account];
+    }
+
+    constructor() public {
+        _mint(msg.sender, 1000000000000000);
     }
 
     /**
@@ -153,7 +157,6 @@ contract MockUSDT {
      * NOTE: This function is not virtual, {_update} should be overridden instead.
      */
     function _transfer(address from, address to, uint256 value) internal {
-        
         _balances[from] -= value;
         _balances[to] += value;
 
@@ -170,6 +173,7 @@ contract MockUSDT {
      */
     function _mint(address account, uint256 value) internal {
         _balances[account] = _balances[account] + value;
+        _totalSupply += value;
     }
 
     /**
@@ -182,6 +186,7 @@ contract MockUSDT {
      */
     function _burn(address account, uint256 value) internal {
         _balances[account] = _balances[account] - value;
+        _totalSupply -= value;
     }
 
     /**
