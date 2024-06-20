@@ -1,4 +1,5 @@
 {
   "MockUSDTModule#MockUSDT": "0x26a69c93Fbda73A5a46D79bdfCD282B947b741BE",
-  "UniswapV2FactoryModule#UniswapV2Factory": "0x22d06d680aBfE8638a2F2136656325Af518C3FD8"
+  "UniswapV2FactoryModule#UniswapV2Factory": "0x22d06d680aBfE8638a2F2136656325Af518C3FD8",
+  "MockwBTCModule#MockwBTC": "0x9db98226cf5Ba09538Fb7D274526A3F0026F05fC"
 }

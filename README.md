@@ -18,3 +18,8 @@ Contract contracts/MockUSDT.sol:MockUSDT already verified on network sepolia:
 Verifying contract "contracts/UniswapV2Factory.sol:UniswapV2Factory" for network sepolia...
 Contract contracts/UniswapV2Factory.sol:UniswapV2Factory already verified on network sepolia:
   - https://sepolia.etherscan.io/address/0x22d06d680aBfE8638a2F2136656325Af518C3FD8#code
+
+
+  Verifying contract "contracts/MockwBTC.sol:MockwBTC" for network sepolia...
+Successfully verified contract "contracts/MockwBTC.sol:MockwBTC" for network sepolia:
+  - https://sepolia.etherscan.io/address/0x9db98226cf5Ba09538Fb7D274526A3F0026F05fC#code
