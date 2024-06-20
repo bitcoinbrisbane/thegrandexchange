@@ -1,17 +1,10 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
-const JAN_1ST_2030 = 1893456000;
-const ONE_GWEI: bigint = 1_000_000_000n;
-
 const UniswapV2FactoryModule = buildModule("UniswapV2FactoryModule", (m) => {
-  const unlockTime = m.getParameter("unlockTime", JAN_1ST_2030);
-  const lockedAmount = m.getParameter("lockedAmount", ONE_GWEI);
+  const fee_setter = "0x7988123D1F90ccF9675f9D154870Af0f9274DF91";
+  const factory = m.contract("UniswapV2Factory", [fee_setter]);
 
-  const lock = m.contract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
-
-  return { lock };
+  return { factory };
 });
 
 export default UniswapV2FactoryModule;
