@@ -13,6 +13,7 @@
     "hh:deploy:usdt:sepolia": "npx hardhat ignition deploy ./ignition/modules/MockUSDT.ts --network sepolia --verify",
     "hh:deploy:btc:sepolia": "npx hardhat ignition deploy ./ignition/modules/MockwBTC.ts --network sepolia --verify",
     "hh:deploy:factory:sepolia": "npx hardhat ignition deploy ./ignition/modules/UniswapV2Factory.ts --network sepolia --verify",
+    "hh:deploy:router:sepolia": "npx hardhat ignition deploy ./ignition/modules/UniswapV2Factory.ts --network sepolia --verify",
     "hh:verify": "npx hardhat verify --network localhost",
     "hh:deploy:sepolia": "npx hardhat ignition deploy ./ignition/modules/MockUSDT.ts --network localhost"
   },
