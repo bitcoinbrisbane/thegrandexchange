@@ -1,9 +1,10 @@
-pragma solidity =0.5.16;
+// SPDX-License-Identifier: UNKNOWN 
+pragma solidity >=0.6.0;
 
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/ERC20.sol)
 
-import IWETH from "./interfaces/IWETH.sol";
+import { IWETH } from "./interfaces/IWETH.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
