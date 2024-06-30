@@ -96,7 +96,7 @@ contract MockWeth is IWETH {
      * - `to` cannot be the zero address.
      * - the caller must have a balance of at least `value`.
      */
-    function transfer(address to, uint256 value) public returns (bool) {
+    function transfer(address to, uint256 value) override public returns (bool) {
         address owner = msg.sender;
         _transfer(owner, to, value);
         return true;
@@ -248,11 +248,11 @@ contract MockWeth is IWETH {
     }
 
     // weth
-    function deposit() external payable {
+    function deposit() override external payable {
         _mint(msg.sender, msg.value);
     }
 
-    function withdraw(uint256 value) external {
+    function withdraw(uint256 value) override external {
         _burn(msg.sender, value);
         msg.sender.transfer(value);
     }
