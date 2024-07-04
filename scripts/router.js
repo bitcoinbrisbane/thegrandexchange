@@ -8,7 +8,7 @@ const contractABI = JSON.parse(
   fs.readFileSync("./ignition/deployments/chain-11155111/artifacts/UniswapV2RouterModule#UniswapV2Router01.json")
 );
 
-const url = "https://eth-sepolia.g.alchemy.com/v2/uwae8IxsUFGbRFh8fagTMrGz1w5iuvpc";
+const url = process.env.ALCHEMY_URL;
 const network = 11155111;
 
 const provider = new JsonRpcProvider(url, network, {
