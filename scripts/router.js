@@ -16,9 +16,6 @@ const routerJson = JSON.parse(
 );
 
 const routerAbi = routerJson.abi;
-console.log(routerAbi);
-
-
 const url = process.env.HTTPS_PROVIDER;
 const network = 11155111;
 
@@ -36,9 +33,6 @@ const wallet = new ethers.Wallet(privateKey, provider);
 
 // The ABI of the ERC-20 contract (simplified)
 const abi = ["function approve(address spender, uint256 amount) external returns (bool)"];
-
-// The address you want to approve
-const spenderAddress = "0xC9a3017839de585956Bd699cFeBDA38dA9d5C335";
 
 // The amount you want to approve (as a BigNumber)
 const amount = ethers.BigNumber.from("1000000000000000000"); // 1 token with 18 decimals
@@ -74,12 +68,33 @@ async function approveTokenB() {
 }
 
 const addLiquidity = async () => {
-  const contract = new ethers.Contract(ROUTER_ADDRESS, contractABI, wallet);
-  const amountADesired = ethers.BigNumber.from("1000000000000000000000"); // 1000 USDC
+  const abi = ["function balanceOf(address owner) view returns (uint256)"];
+
+  // Check owners wallet token balance
+  const wbtc = new ethers.Contract(MOCK_WBTC_ADDRESS, abi, wallet);
+  const wbtcBalance = await wbtc.balanceOf(wallet.address);
+  console.log("WBTC Balance:", wbtcBalance.toString());
+
+  const usdc = new ethers.Contract(MOCK_USD_ADDRESS, abi, wallet);
+  const usdcBalance = await usdc.balanceOf(wallet.address);
+  console.log("USDC Balance:", usdcBalance.toString());
+
+  const contract = new ethers.Contract(ROUTER_ADDRESS, routerAbi, wallet);
+  const amountADesired = ethers.BigNumber.from("1000000000000000"); // 1 USDC
+  const amountAMin = ethers.BigNumber.from("100000000000000"); // 0.1 USDC
   const amountBDesired = ethers.BigNumber.from("10000000000000000"); // 0.01 WBTC
-  const amountAMin = ethers.BigNumber.from("100000000000000000000"); // 100 USDC
   const amountBMin = ethers.BigNumber.from("1000000000000000"); // 0.001 WBTC
-  
+
+  if (usdcBalance.lt(amountADesired)) {
+    console.error("Insufficient USDC balance");
+    return;
+  }
+
+  if (wbtcBalance.lt(amountBDesired)) {
+    console.error("Insufficient WBTC balance");
+    return;
+  }
+
   const to = "0x7988123D1F90ccF9675f9D154870Af0f9274DF91"; // owner
   //const to = "0xB758DAF16A01d63E4570E10CbB3897Ab0Cc2a51D"; // index 1
   const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
