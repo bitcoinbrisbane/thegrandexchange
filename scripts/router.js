@@ -1,5 +1,5 @@
 const fs = require("fs");
-const ethers = require("ethers");
+const { ethers } = require("ethers");
 const BigNumber = require("bignumber.js");
 const { JsonRpcProvider } = require("@ethersproject/providers");
 
@@ -11,13 +11,13 @@ const MOCK_USD_ADDRESS = "0x5Df3cF639d8cB528A973B2b4BA6eC9D7EEd6a176";
 const MOCK_WBTC_ADDRESS = "0x0aD29c477599531eb6d490084C098CE2c430567b";
 const WETH = "0xc665C290BaCA0709d66327320206d7c65e2A6F36";
 
-const contractABI = JSON.parse(
+const routerJson = JSON.parse(
   fs.readFileSync("./ignition/deployments/chain-11155111/artifacts/UniswapV2RouterModule#UniswapV2Router01.json")
 );
 
-const erc20ABI = JSON.parse(
-  fs.readFileSync("./ignition/deployments/chain-11155111/artifacts/MockUSDTModule#MockUSDT.json")
-);
+const routerAbi = routerJson.abi;
+console.log(routerAbi);
+
 
 const url = process.env.HTTPS_PROVIDER;
 const network = 11155111;
@@ -27,42 +27,59 @@ const provider = new JsonRpcProvider(url, network, {
 });
 
 const signer = new ethers.Wallet(private_key, provider);
-const contract = new ethers.Contract(ROUTER_ADDRESS, contractABI.abi, signer);
 
-const getWeth = async () => {
-  const weth = await contract.WETH();
-  // should be 0xc665C290BaCA0709d66327320206d7c65e2A6F36
-  console.log(weth);
-};
+// Your wallet private key
+const privateKey = process.env.PRIVATE_KEY;
 
-const approveA = async () => {
-  // Mock USDT
-  const token = new ethers.Contract(MOCK_USD_ADDRESS, erc20ABI.abi, signer);
-  const value = BigNumber("1");
-  const spender = ROUTER_ADDRESS;
+// Create a wallet instance
+const wallet = new ethers.Wallet(privateKey, provider);
 
-  console.log(value);
-  console.log(spender);
+// The ABI of the ERC-20 contract (simplified)
+const abi = ["function approve(address spender, uint256 amount) external returns (bool)"];
 
-  const tx = await token.approve(spender, 1);
-  // console.log(tx);
-};
+// The address you want to approve
+const spenderAddress = "0xC9a3017839de585956Bd699cFeBDA38dA9d5C335";
 
-const approveB = async () => {
-  // Mock wBTC
-  const token = new ethers.Contract(MOCK_WBTC_ADDRESS, erc20ABI.abi, signer);
-  const amount = BigNumber("1");
-  const spender = ROUTER_ADDRESS;
+// The amount you want to approve (as a BigNumber)
+const amount = ethers.BigNumber.from("1000000000000000000"); // 1 token with 18 decimals
 
-  const tx = await token.approve(spender, amount);
-  console.log(tx);
-};
+async function approveTokenA() {
+  try {
+    // Create a contract instance
+    const contract = new ethers.Contract(MOCK_USD_ADDRESS, abi, wallet);
+    const tx = await contract.approve(ROUTER_ADDRESS, amount);
+    console.log("Transaction hash:", tx.hash);
+
+    // Wait for the transaction to be mined
+    const receipt = await tx.wait();
+    console.log("Transaction was mined in block:", receipt.blockNumber);
+  } catch (error) {
+    console.error("Error approving tokens:", error);
+  }
+}
+
+async function approveTokenB() {
+  try {
+    // Create a contract instance
+    const contract = new ethers.Contract(MOCK_WBTC_ADDRESS, abi, wallet);
+    const tx = await contract.approve(ROUTER_ADDRESS, amount);
+    console.log("Transaction hash:", tx.hash);
+
+    // Wait for the transaction to be mined
+    const receipt = await tx.wait();
+    console.log("Transaction was mined in block:", receipt.blockNumber);
+  } catch (error) {
+    console.error("Error approving tokens:", error);
+  }
+}
 
 const addLiquidity = async () => {
-  const amountADesired = ethers.utils.parseEther("1");
-  const amountBDesired = ethers.utils.parseEther("1");
-  const amountAMin = ethers.utils.parseEther("0.1");
-  const amountBMin = ethers.utils.parseEther("0.1");
+  const contract = new ethers.Contract(ROUTER_ADDRESS, contractABI, wallet);
+  const amountADesired = ethers.BigNumber.from("1000000000000000000000"); // 1000 USDC
+  const amountBDesired = ethers.BigNumber.from("10000000000000000"); // 0.01 WBTC
+  const amountAMin = ethers.BigNumber.from("100000000000000000000"); // 100 USDC
+  const amountBMin = ethers.BigNumber.from("1000000000000000"); // 0.001 WBTC
+  
   const to = "0x7988123D1F90ccF9675f9D154870Af0f9274DF91"; // owner
   //const to = "0xB758DAF16A01d63E4570E10CbB3897Ab0Cc2a51D"; // index 1
   const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
@@ -77,8 +94,16 @@ const addLiquidity = async () => {
     to,
     deadline
   );
-  console.log(tx);
+
+  console.log("Transaction hash:", tx.hash);
+
+  // Wait for the transaction to be mined
+  const receipt = await tx.wait();
+  console.log("Transaction was mined in block:", receipt.blockNumber);
 };
 
-// getWeth();
-approveA();
+// Run the approve function on mock usdt
+// TODO: Check the allowance first
+// approveTokenA();
+// approveTokenB();
+addLiquidity();
