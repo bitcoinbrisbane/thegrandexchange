@@ -8,8 +8,11 @@ require("dotenv").config();
 const private_key = process.env.PRIVATE_KEY;
 const ROUTER_ADDRESS = "0xC9a3017839de585956Bd699cFeBDA38dA9d5C335";
 const MOCK_USD_ADDRESS = "0x5Df3cF639d8cB528A973B2b4BA6eC9D7EEd6a176";
+const TOKEN_0_USD = "0x26a69c93Fbda73A5a46D79bdfCD282B947b741BE";
+const TOKEN_1 = "0xd21ba2B3Fd3B921CCf9C60ab2aBEaCCaDb4cE220";
 const MOCK_WBTC_ADDRESS = "0x0aD29c477599531eb6d490084C098CE2c430567b";
 const WETH = "0xc665C290BaCA0709d66327320206d7c65e2A6F36";
+const PAIR = "0x805C24890478BbCd82c8Ce2cF73d9cb00cC7715C";
 
 const routerJson = JSON.parse(
   fs.readFileSync("./ignition/deployments/chain-11155111/artifacts/UniswapV2RouterModule#UniswapV2Router01.json")
@@ -36,6 +39,17 @@ const abi = ["function approve(address spender, uint256 amount) external returns
 
 // The amount you want to approve (as a BigNumber)
 const amount = ethers.BigNumber.from("1000000000000000000"); // 1 token with 18 decimals
+
+async function getFactory() {
+  try {
+    // Create a contract instance
+    const contract = new ethers.Contract(ROUTER_ADDRESS, routerAbi, wallet);
+    const factory = await contract.factory();
+    console.log("Factory address:", factory);
+  } catch (error) {
+    console.error("Error approving tokens:", error);
+  }
+}
 
 async function approveTokenA() {
   try {
@@ -95,9 +109,9 @@ const addLiquidity = async () => {
     return;
   }
 
-  const to = "0x7988123D1F90ccF9675f9D154870Af0f9274DF91"; // owner
+  const to = "0x7988123D1F90ccF9675f9D154870Af0f9274DF91"; // pair address
   //const to = "0xB758DAF16A01d63E4570E10CbB3897Ab0Cc2a51D"; // index 1
-  const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
+  const deadline = Math.floor(Date.now() / 1000) + 60 * 60; // 60 minutes from the current Unix time
 
   const tx = await contract.addLiquidity(
     MOCK_USD_ADDRESS,
@@ -121,4 +135,5 @@ const addLiquidity = async () => {
 // TODO: Check the allowance first
 // approveTokenA();
 // approveTokenB();
-addLiquidity();
+getFactory();
+// addLiquidity();
