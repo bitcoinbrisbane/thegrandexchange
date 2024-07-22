@@ -6,7 +6,7 @@ const { JsonRpcProvider } = require("@ethersproject/providers");
 require("dotenv").config();
 
 const private_key = process.env.PRIVATE_KEY;
-const ROUTER_ADDRESS = "0xC9a3017839de585956Bd699cFeBDA38dA9d5C335";
+const ROUTER_ADDRESS = "0x819A6D981F0b886384aa257bcFb153Ea9F98cA8e";
 const MOCK_USD_ADDRESS = "0x5Df3cF639d8cB528A973B2b4BA6eC9D7EEd6a176";
 const TOKEN_0_USD = "0x26a69c93Fbda73A5a46D79bdfCD282B947b741BE";
 const TOKEN_1 = "0xd21ba2B3Fd3B921CCf9C60ab2aBEaCCaDb4cE220";

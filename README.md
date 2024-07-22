@@ -8,6 +8,7 @@ Owner
 
 MockUSDTModule#MockUSDT - 0x26a69c93Fbda73A5a46D79bdfCD282B947b741BE
 UniswapV2FactoryModule#UniswapV2Factory - 0x22d06d680aBfE8638a2F2136656325Af518C3FD8
+Router - 0x819A6D981F0b886384aa257bcFb153Ea9F98cA8e
 
 Verifying deployed contracts
 
@@ -23,3 +24,10 @@ Contract contracts/UniswapV2Factory.sol:UniswapV2Factory already verified on net
   Verifying contract "contracts/MockwBTC.sol:MockwBTC" for network sepolia...
 Successfully verified contract "contracts/MockwBTC.sol:MockwBTC" for network sepolia:
   - https://sepolia.etherscan.io/address/0x9db98226cf5Ba09538Fb7D274526A3F0026F05fC#code
+
+
+  Verifying deployed contracts
+
+Verifying contract "contracts/UniswapV2Router01.sol:UniswapV2Router01" for network sepolia...
+Successfully verified contract "contracts/UniswapV2Router01.sol:UniswapV2Router01" for network sepolia:
+  - https://sepolia.etherscan.io/address/0x819A6D981F0b886384aa257bcFb153Ea9F98cA8e#code
