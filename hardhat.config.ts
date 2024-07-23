@@ -13,7 +13,16 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
-      chainId: 1337
+      chainId: 1337,
+      mining: {
+        mempool: {
+          order: "fifo",
+        },
+        auto: true,
+      },
+    },
+    localhost: {
+      url: "http://localhost:8545",
     },
     sepolia: {
       url: process.env.HTTPS_PROVIDER || defaultRpcUrl,
