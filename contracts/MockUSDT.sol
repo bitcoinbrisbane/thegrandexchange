@@ -3,14 +3,13 @@ pragma solidity >=0.6.0;
 
 import { IERC20 } from "./interfaces/IERC20.sol";
 
-contract MockERC20 is IERC20 {
+contract MockUSDT is IERC20 {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
-
+    string private _symbol = "USDT";
     string private _name;
-    string private _symbol = "wETH";
 
     /**
      * @dev Returns the name of the token.
@@ -59,8 +58,8 @@ contract MockERC20 is IERC20 {
     }
 
     constructor() public {
-        _name = "MockERC20";
         _mint(msg.sender, 1000 * 10 ** 18);
+        _name = "USDT";
     }
 
     /**

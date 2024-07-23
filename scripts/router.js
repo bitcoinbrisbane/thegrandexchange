@@ -7,12 +7,14 @@ require("dotenv").config();
 
 // const private_key = process.env.PRIVATE_KEY;
 const private_key = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
-const ROUTER_ADDRESS = "0x819A6D981F0b886384aa257bcFb153Ea9F98cA8e";
-const MOCK_USD_ADDRESS = "0x5Df3cF639d8cB528A973B2b4BA6eC9D7EEd6a176";
+// const ROUTER_ADDRESS = "0x819A6D981F0b886384aa257bcFb153Ea9F98cA8e"; // SEPOLIA
+const ROUTER_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+// const MOCK_USD_ADDRESS = "0x5Df3cF639d8cB528A973B2b4BA6eC9D7EEd6a176";
+const MOCK_USD_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const TOKEN_0_USD = "0x26a69c93Fbda73A5a46D79bdfCD282B947b741BE";
 const TOKEN_1 = "0xd21ba2B3Fd3B921CCf9C60ab2aBEaCCaDb4cE220";
 // const MOCK_WBTC_ADDRESS = "0x0aD29c477599531eb6d490084C098CE2c430567b";
-const MOCK_WBTC_ADDRESS = "0x0ad29c477599531eb6d490084c098ce2c430567b";
+const MOCK_WBTC_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const WETH = "0xc665C290BaCA0709d66327320206d7c65e2A6F36";
 const PAIR = "0x805C24890478BbCd82c8Ce2cF73d9cb00cC7715C";
 
@@ -21,8 +23,8 @@ const PAIR = "0x805C24890478BbCd82c8Ce2cF73d9cb00cC7715C";
 // );
 
 // const routerAbi = routerJson.abi;
-const url = process.env.HTTPS_PROVIDER;
-const network = 11155111;
+const url = "http://localhost:8545"; //process.env.HTTPS_PROVIDER;
+const network = 1337; // 11155111;
 
 const provider = new JsonRpcProvider(url, network, {
   staticNetwork: network,
@@ -31,7 +33,7 @@ const provider = new JsonRpcProvider(url, network, {
 const signer = new ethers.Wallet(private_key, provider);
 
 // Your wallet private key
-const privateKey = process.env.PRIVATE_KEY;
+const privateKey = private_key; // process.env.PRIVATE_KEY;
 
 // Create a wallet instance
 const wallet = new ethers.Wallet(privateKey, provider);
