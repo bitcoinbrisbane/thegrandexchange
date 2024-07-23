@@ -13,7 +13,7 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
-      chainId: 1337,
+      chainId: 1337
     },
     sepolia: {
       url: process.env.HTTPS_PROVIDER || defaultRpcUrl,
