@@ -95,9 +95,11 @@ const addLiquidity = async () => {
   const usdcBalance = await usdc.balanceOf(wallet.address);
   console.log("USDC Balance:", usdcBalance.toString());
 
-  const addLiquidityAbi = [];
+  const addLiquidityAbi = [
+    "function addLiquidity(address tokenA, address tokenB, uint amountADesired, uint amountBDesired, uint amountAMin, uint amountBMin, address to, uint deadline) external returns (uint amountA, uint amountB, uint liquidity)",
+  ];
 
-  const contract = new ethers.Contract(ROUTER_ADDRESS, routerAbi, wallet);
+  const contract = new ethers.Contract(ROUTER_ADDRESS, addLiquidityAbi, wallet);
   const amountADesired = ethers.BigNumber.from("1000000000000000"); // 1 USDC
   const amountAMin = ethers.BigNumber.from("100000000000000"); // 0.1 USDC
   const amountBDesired = ethers.BigNumber.from("10000000000000000"); // 0.01 WBTC
