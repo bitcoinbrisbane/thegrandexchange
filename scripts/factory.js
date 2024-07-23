@@ -45,4 +45,12 @@ const allPairs = async () => {
   console.log("Pairs :", pairs);
 };
 
+const createPair = async () => {
+  const factory = new ethers.Contract(FACTORY, factoryAbi, wallet);
+  const tx = await factory.createPair(MOCK_USD_ADDRESS, MOCK_WBTC_ADDRESS);
+  console.log("Transaction hash:", tx.hash);
+}
+
 allPairs();
+createPair();
+
