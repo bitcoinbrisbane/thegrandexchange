@@ -15,11 +15,11 @@ const MOCK_WBTC_ADDRESS = "0x0ad29c477599531eb6d490084c098ce2c430567b";
 const WETH = "0xc665C290BaCA0709d66327320206d7c65e2A6F36";
 const PAIR = "0x805C24890478BbCd82c8Ce2cF73d9cb00cC7715C";
 
-const routerJson = JSON.parse(
-  fs.readFileSync("./ignition/deployments/chain-11155111/artifacts/UniswapV2RouterModule#UniswapV2Router01.json")
-);
+// const routerJson = JSON.parse(
+//   fs.readFileSync("./ignition/deployments/chain-11155111/artifacts/UniswapV2RouterModule#UniswapV2Router01.json")
+// );
 
-const routerAbi = routerJson.abi;
+// const routerAbi = routerJson.abi;
 const url = process.env.HTTPS_PROVIDER;
 const network = 11155111;
 
@@ -44,7 +44,8 @@ const amount = ethers.BigNumber.from("1000000000000000000"); // 1 token with 18 
 async function getFactory() {
   try {
     // Create a contract instance
-    const contract = new ethers.Contract(ROUTER_ADDRESS, routerAbi, wallet);
+    const factoryAbi = ["function factory() view returns (address)"];
+    const contract = new ethers.Contract(ROUTER_ADDRESS, factoryAbi, wallet);
     const factory = await contract.factory();
     console.log("Factory address:", factory);
   } catch (error) {
@@ -94,6 +95,8 @@ const addLiquidity = async () => {
   const usdcBalance = await usdc.balanceOf(wallet.address);
   console.log("USDC Balance:", usdcBalance.toString());
 
+  const addLiquidityAbi = [];
+
   const contract = new ethers.Contract(ROUTER_ADDRESS, routerAbi, wallet);
   const amountADesired = ethers.BigNumber.from("1000000000000000"); // 1 USDC
   const amountAMin = ethers.BigNumber.from("100000000000000"); // 0.1 USDC
@@ -113,10 +116,12 @@ const addLiquidity = async () => {
   const to = "0x7988123D1F90ccF9675f9D154870Af0f9274DF91";
   //const to = "0xB758DAF16A01d63E4570E10CbB3897Ab0Cc2a51D"; // index 1
   const deadline = 99999999999; // Math.floor(Date.now() / 1000) + 60 * 60; // 60 minutes from the current Unix time
+  const token0 = MOCK_WBTC_ADDRESS;
+  const token1 = MOCK_USD_ADDRESS;
 
   const tx = await contract.addLiquidity(
-    MOCK_USD_ADDRESS,
-    MOCK_WBTC_ADDRESS,
+    token0,
+    token1,
     amountADesired,
     amountBDesired,
     amountAMin,
