@@ -67,14 +67,10 @@ contract UniswapV2Router01 is IUniswapV2Router01 {
         uint deadline
     ) external override ensure(deadline) returns (uint amountA, uint amountB, uint liquidity) {
         (amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
-        // address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
-        // TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
-        // TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
-        // liquidity = IUniswapV2Pair(pair).mint(to);
-
-        require(to != address(0), 'UniswapV2Router: INVALID_TO_ADDRESS');
-
-        liquidity = 0;
+        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
+        TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
+        TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
+        liquidity = IUniswapV2Pair(pair).mint(to);
     }
     function addLiquidityETH(
         address token,
@@ -93,15 +89,11 @@ contract UniswapV2Router01 is IUniswapV2Router01 {
             amountETHMin
         );
         address pair = UniswapV2Library.pairFor(factory, token, WETH);
-        // TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
-        // IWETH(WETH).deposit{value: amountETH}();
-        // assert(IWETH(WETH).transfer(pair, amountETH));
-        // liquidity = IUniswapV2Pair(pair).mint(to);
-        // if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH); // refund dust eth, if any
-
-        require(pair != address(0), 'UniswapV2Router: INVALID_PAIR');
-        require(to != address(0), 'UniswapV2Router: INVALID_TO_ADDRESS');
-        liquidity = 0;
+        TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
+        IWETH(WETH).deposit{value: amountETH}();
+        assert(IWETH(WETH).transfer(pair, amountETH));
+        liquidity = IUniswapV2Pair(pair).mint(to);
+        if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH); // refund dust eth, if any
     }
 
     // **** REMOVE LIQUIDITY ****
