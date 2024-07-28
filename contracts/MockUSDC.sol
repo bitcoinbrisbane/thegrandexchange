@@ -3,14 +3,13 @@ pragma solidity >=0.6.0;
 
 import { IERC20 } from "./interfaces/IERC20.sol";
 
-contract MockERC20 is IERC20 {
+contract MockUSDT is IERC20 {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
-    uint256 private _decimals;
+    string private _symbol = "USDC";
     string private _name;
-    string private _symbol;
 
     /**
      * @dev Returns the name of the token.
@@ -41,7 +40,7 @@ contract MockERC20 is IERC20 {
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
     function decimals() public view override returns (uint8) {
-        return 18;
+        return 6;
     }
 
     /**
@@ -58,11 +57,9 @@ contract MockERC20 is IERC20 {
         return _balances[account];
     }
 
-    constructor(string memory name_, string memory symbol_, uint decimals_) public {
-        _name = name_;
-        _symbol = symbol_;
-        _decimals = decimals_;
-        _mint(msg.sender, 1000 * 10 ** _decimals);
+    constructor() public {
+        _mint(msg.sender, 1000 * 10 ** 18);
+        _name = "USDT";
     }
 
     /**
